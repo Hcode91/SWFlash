@@ -25,6 +25,14 @@ Tap **Open SWF**, choose a file through Android's document picker, and tap the m
 
 The app validates the SWF signature and streams the selected document through a private HTTPS origin. Ruffle and WASM load from bundled assets, so playback works offline after installation. File names are inserted as text. Flash-to-JavaScript access, outgoing navigation, and external network requests are disabled; the app does not request Android's INTERNET permission. The native bridge only opens the Android document picker. Playback pauses when the activity goes into the background; tap Resume when returning.
 
+## Fast forward and launcher icon
+
+Tap **Speed: 1×** to cycle through 2×, 4×, and back to 1×. The same button is available in fullscreen. Speed changes preserve the running player and game state; they scale Ruffle's animation clock instead of reloading the SWF. Opening or restarting a movie returns to 1×. Fast forward mutes audio and restores its previous volume at normal speed. Some audio-driven movies and games may not accelerate consistently, and actual speed depends on device performance.
+
+The Android launcher uses an adaptive mint lightning bolt/play icon, including Android 13 themed icon support.
+
+CI checks clock continuity, controls, and volume restoration, then runs real Ruffle/WASM in Chromium against a generated ActionScript timeline to verify that 4× advances faster without replacing the player or restarting the movie. Android device playback still requires testing.
+
 ## Compatibility and scope
 
 Ruffle emulates Flash; support varies for ActionScript 1/2/3 and individual Flash APIs. This is a starter implementation, not a claim of universal compatibility. Movies needing sibling files, remote resources, obsolete online services, DRM, or unsupported APIs may fail. Folder imports and external resources are not implemented. Large files and demanding games depend on device memory and GPU capabilities. Fullscreen includes a Show/Hide controls button and an Exit fullscreen button. The touch keyboard overlays the bottom of the movie when enabled; its visibility stays in sync with the normal Game controls toggle. Save persistence and behavior across app restarts require device validation.

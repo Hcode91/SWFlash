@@ -36,6 +36,12 @@ jobs:
           bash tools/bundle-ruffle.sh
           test -s app/src/main/assets/player/ruffle/ruffle.js
           find app/src/main/assets/player/ruffle -name '*.wasm' | grep -q .
+      - name: Check playback controls and live fast forward
+        run: |
+          node --test tools/test-player.cjs
+          npm install --prefix "$RUNNER_TEMP/swf-smoke" --no-package-lock playwright@1.56.1
+          "$RUNNER_TEMP/swf-smoke/node_modules/.bin/playwright" install --with-deps chromium
+          NODE_PATH="$RUNNER_TEMP/swf-smoke/node_modules" node tools/smoke-speed.cjs
       - name: Build debug APK and lint
         run: gradle --no-daemon :app:assembleDebug :app:lintDebug
       - name: Upload APK and runtime version
