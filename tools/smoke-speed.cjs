@@ -36,6 +36,7 @@ function movie() {
  try {
   browser=await chromium.launch({args:['--enable-unsafe-swiftshader']});
   const page=await browser.newPage({locale:'en-US'});
+  page.on('console', message => { if (['error','warning'].includes(message.type())) console.log('Ruffle:',message.text()); });
   page.on('pageerror',error=>console.error('Browser:',error.stack));
   await page.goto('http://127.0.0.1:'+server.address().port);
   await page.waitForFunction(()=>window.RufflePlayer?.newest);
@@ -46,7 +47,8 @@ function movie() {
     window.testPlayer.ruffle().traceObserver=message=>window.traces.push(message);
   });
   await page.locator('ruffle-player').click();
-  await page.waitForFunction(()=>window.traces.length>=5,{},{timeout:30000});
+  await page.evaluate(() => { const api = window.testPlayer.ruffle(); if (api.resume) api.resume(); else api.play(); });
+  try { await page.waitForFunction(()=>window.traces.length>=5,{},{timeout:15000}); } catch (error) { console.log(await page.evaluate(() => ({status:document.getElementById('status').textContent,metadata:window.testPlayer.ruffle().metadata,suspended:window.testPlayer.ruffle().suspended,traces:window.traces}))); throw error; }
   const count=()=>page.evaluate(()=>window.traces.length);
   let before=await count();await page.waitForTimeout(1200);const normal=(await count())-before;
   await page.locator('#speed').click(); // 2x
