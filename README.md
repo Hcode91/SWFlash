@@ -27,7 +27,7 @@ The app validates the SWF signature and streams the selected document through a 
 
 ## Compatibility and scope
 
-Ruffle emulates Flash; support varies for ActionScript 1/2/3 and individual Flash APIs. This is a starter implementation, not a claim of universal compatibility. Movies needing sibling files, remote resources, obsolete online services, DRM, or unsupported APIs may fail. Folder imports and external resources are not implemented. Large files and demanding games depend on device memory and GPU capabilities. Fullscreen currently shows the movie; the app's touch keyboard stays outside fullscreen. Save persistence and behavior across app restarts require device validation.
+Ruffle emulates Flash; support varies for ActionScript 1/2/3 and individual Flash APIs. This is a starter implementation, not a claim of universal compatibility. Movies needing sibling files, remote resources, obsolete online services, DRM, or unsupported APIs may fail. Folder imports and external resources are not implemented. Large files and demanding games depend on device memory and GPU capabilities. Fullscreen includes a Show/Hide controls button and an Exit fullscreen button. The touch keyboard overlays the bottom of the movie when enabled; its visibility stays in sync with the normal Game controls toggle. Save persistence and behavior across app restarts require device validation.
 
 ## Validation still required
 

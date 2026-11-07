@@ -21,8 +21,18 @@ $('open').onclick = () => window.Android ? window.Android.openFile() : status('O
 window.pauseMovie = () => { if (player) { player.ruffle().pause(); paused = true; $('pause').textContent = 'Resume'; } };
 $('pause').onclick = () => { if (!player) return; if (paused) { player.ruffle().play(); paused = false; $('pause').textContent = 'Pause'; } else window.pauseMovie(); };
 $('restart').onclick = () => { if (currentName) window.openMovie(currentName); };
-$('full').onclick = async () => { try { if (document.fullscreenElement) await document.exitFullscreen(); else await $('stage').requestFullscreen(); } catch (_) { status('Fullscreen is unavailable on this device.'); } };
-$('toggle').onclick = () => { $('controls').hidden = !$('controls').hidden; $('toggle').setAttribute('aria-pressed', String(!$('controls').hidden)); };
+$('full').onclick = async () => { try { if (document.fullscreenElement) await document.exitFullscreen(); else await $('screen').requestFullscreen(); } catch (_) { status('Fullscreen is unavailable on this device.'); } };
+function toggleControls() {
+  const visible = $('controls').hidden;
+  $('controls').hidden = !visible;
+  $('toggle').setAttribute('aria-pressed', String(visible));
+  $('fullscreen-toggle').setAttribute('aria-pressed', String(visible));
+  $('fullscreen-toggle').textContent = visible ? 'Hide controls' : 'Show controls';
+  if (!visible) for (const code of Object.keys(codes)) sendKey('keyup', code);
+}
+$('toggle').onclick = toggleControls;
+$('fullscreen-toggle').onclick = toggleControls;
+$('fullscreen-exit').onclick = () => document.exitFullscreen().catch(() => status('Unable to exit fullscreen.'));
 const codes = {ArrowUp:38,ArrowDown:40,ArrowLeft:37,ArrowRight:39,Space:32,Enter:13,KeyZ:90,KeyX:88};
 function sendKey(type, code) {
   if (!player) return;
