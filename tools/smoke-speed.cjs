@@ -35,13 +35,14 @@ function movie() {
  let browser;
  try {
   browser=await chromium.launch({args:['--enable-unsafe-swiftshader']});
-  const page=await browser.newPage();
-  page.on('pageerror',error=>console.error('Browser:',error.message));
+  const page=await browser.newPage({locale:'en-US'});
+  page.on('pageerror',error=>console.error('Browser:',error.stack));
   await page.goto('http://127.0.0.1:'+server.address().port);
   await page.waitForFunction(()=>window.RufflePlayer?.newest);
   await page.evaluate(async()=>{
     await window.openMovie('speed-test.swf');
     window.testPlayer=document.querySelector('ruffle-player');window.traces=[];
+    if (!window.testPlayer || typeof window.testPlayer.ruffle !== 'function') throw new Error(document.getElementById('status').textContent);
     window.testPlayer.ruffle().traceObserver=message=>window.traces.push(message);
   });
   await page.locator('ruffle-player').click();
