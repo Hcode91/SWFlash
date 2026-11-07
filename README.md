@@ -2,7 +2,13 @@
 
 An Android starter player for local, self-contained SWF animations and games using Ruffle in a WebView. Android 8.0+ (API 26). No Adobe plugin or storage permission required.
 
-## Build
+## Download an APK from GitHub
+
+Open [Actions](https://github.com/Hcode91/SWFlash/actions/workflows/android.yml), select a successful **Android APK** run, and download **SWFlash-debug** under Artifacts. Extract the ZIP and install `app-debug.apk`. Sign in to GitHub to download artifacts. This is a debug-signed build for testing.
+
+The workflow runs on pushes to main, pull requests, and manual dispatch. It installs Gradle 8.9 and Android SDK 35, bundles Ruffle, builds the APK, runs Android lint, and uploads the APK, resolved Ruffle version, and lint report.
+
+## Build locally
 
 Prerequisites: Android Studio with Android SDK 35, JDK 17+, and Node/npm for fetching the bundled runtime.
 
@@ -11,7 +17,7 @@ Prerequisites: Android Studio with Android SDK 35, JDK 17+, and Node/npm for fet
 3. Choose **Build > Build App Bundle(s) / APK(s) > Build APK(s)**, or run `gradle :app:assembleDebug` using Gradle 8.9.
 4. Install `app/build/outputs/apk/debug/app-debug.apk` on your Android device.
 
-The runtime is not included in this checkout: the creation environment's proxy was unavailable. There is no Gradle wrapper in this checkout; Android Studio can download the required Gradle distribution. No APK has been compiled or device-tested yet.
+The runtime is not included in this checkout: the creation environment's proxy was unavailable. There is no Gradle wrapper in this checkout; Android Studio can download the required Gradle distribution. The GitHub Actions build and Android lint have passed; playback has not been device-tested yet.
 
 ## Use
 
