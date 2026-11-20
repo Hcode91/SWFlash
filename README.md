@@ -25,6 +25,10 @@ Tap **Open SWF**, choose a file through Android's document picker, and tap the m
 
 The app validates the SWF signature and streams the selected document through a private HTTPS origin. Ruffle and WASM load from bundled assets, so playback works offline after installation. File names are inserted as text. Flash-to-JavaScript access, outgoing navigation, and external network requests are disabled; the app does not request Android's INTERNET permission. The native bridge only opens the Android document picker. Playback pauses when the activity goes into the background; tap Resume when returning.
 
+## Starting a movie from another app
+
+Launchers and trackers (such as BacklogQuest's home-screen tiles) can play a movie directly: send `com.hcode91.pocket.LAUNCH_GAME` to `dev.swfpocket/.MainActivity` with the `.swf` file as the intent's data, granting read access to it. The file is checked for an SWF signature first; a file that isn't one leaves the player on its start screen with a message.
+
 ## Fast forward and launcher icon
 
 Tap **Speed: 1×** to cycle through 2×, 4×, and back to 1×. The same button is available in fullscreen. Speed changes preserve the running player and game state; they scale Ruffle's animation clock instead of reloading the SWF. Opening or restarting a movie returns to 1×. Fast forward mutes audio and restores its previous volume at normal speed. Some audio-driven movies and games may not accelerate consistently, and actual speed depends on device performance.
